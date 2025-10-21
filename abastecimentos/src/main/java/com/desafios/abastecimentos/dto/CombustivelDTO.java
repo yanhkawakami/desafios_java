@@ -1,12 +1,11 @@
 package com.desafios.abastecimentos.dto;
 
-import com.desafios.abastecimentos.entities.Combustiveis;
-import jakarta.validation.constraints.Min;
+import com.desafios.abastecimentos.entities.Combustivel;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
-public class CombustiveisDTO {
+public class CombustivelDTO {
     private Long id;
     @NotBlank(message = "The field 'nomeCombustivel' cannot be null")
     private String nomeCombustivel;
@@ -14,18 +13,18 @@ public class CombustiveisDTO {
     @PositiveOrZero (message = "The field 'precoPorLitro' cannot be negative or zero")
     private double precoPorLitro;
 
-    public CombustiveisDTO() {}
+    public CombustivelDTO() {}
 
-    public CombustiveisDTO(Long id, String nomeCombustivel, double precoPorLitro) {
+    public CombustivelDTO(Long id, String nomeCombustivel, double precoPorLitro) {
         this.id = id;
         this.nomeCombustivel = nomeCombustivel;
         this.precoPorLitro = precoPorLitro;
     }
 
-    public CombustiveisDTO(Combustiveis combustiveis){
-        id = combustiveis.getId();;
-        nomeCombustivel = combustiveis.getNomeCombustivel();
-        precoPorLitro = combustiveis.getPrecoPorLitro();
+    public CombustivelDTO(Combustivel combustivel){
+        id = combustivel.getId();;
+        nomeCombustivel = combustivel.getNomeCombustivel();
+        precoPorLitro = combustivel.getPrecoPorLitro();
     }
 
     public Long getId() {

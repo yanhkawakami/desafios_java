@@ -6,17 +6,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table (name = "tb_combustiveis")
-public class Combustiveis {
+@Table (name = "tb_combustivel")
+public class Combustivel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nomeCombustivel;
     private double precoPorLitro;
 
-    public Combustiveis() {}
+    @ManyToMany (mappedBy = "combustiveis")
+    private Set<BombaDeCombustivel> bombas = new HashSet<>();
 
-    public Combustiveis(Long id, String nomeCombustivel, double precoPorLitro) {
+    public Combustivel() {}
+
+    public Combustivel(Long id, String nomeCombustivel, double precoPorLitro) {
         this.id = id;
         this.nomeCombustivel = nomeCombustivel;
         this.precoPorLitro = precoPorLitro;
@@ -44,5 +47,9 @@ public class Combustiveis {
 
     public void setPrecoPorLitro(double precoPorLitro) {
         this.precoPorLitro = precoPorLitro;
+    }
+
+    public Set<BombaDeCombustivel> getBombas() {
+        return bombas;
     }
 }

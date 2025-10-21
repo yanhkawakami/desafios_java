@@ -1,7 +1,7 @@
 package com.desafios.abastecimentos.controllers;
 
-import com.desafios.abastecimentos.dto.CombustiveisDTO;
-import com.desafios.abastecimentos.services.CombustiveisService;
+import com.desafios.abastecimentos.dto.CombustivelDTO;
+import com.desafios.abastecimentos.services.CombustivelService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,35 +14,35 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/combustiveis")
-public class CombustiveisController {
+public class CombustivelController {
 
     @Autowired
-    CombustiveisService service;
+    CombustivelService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CombustiveisDTO> findById(@PathVariable Long id){
-        CombustiveisDTO combustiveisDTO = service.findById(id);
-        return ResponseEntity.ok(combustiveisDTO);
+    public ResponseEntity<CombustivelDTO> findById(@PathVariable Long id){
+        CombustivelDTO combustivelDTO = service.findById(id);
+        return ResponseEntity.ok(combustivelDTO);
     }
 
     @GetMapping
-    public ResponseEntity<Page<CombustiveisDTO>> findAll(Pageable pageable){
-        Page<CombustiveisDTO> combustiveisDTO = service.findAll(pageable);
+    public ResponseEntity<Page<CombustivelDTO>> findAll(Pageable pageable){
+        Page<CombustivelDTO> combustiveisDTO = service.findAll(pageable);
         return ResponseEntity.ok(combustiveisDTO);
     }
 
     @PostMapping
-    public ResponseEntity<CombustiveisDTO> insert(@Valid @RequestBody CombustiveisDTO combustiveisDTO){
-        CombustiveisDTO dto = service.insert(combustiveisDTO);
+    public ResponseEntity<CombustivelDTO> insert(@Valid @RequestBody CombustivelDTO combustivelDTO){
+        CombustivelDTO dto = service.insert(combustivelDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 
     @PutMapping (value = "/{id}")
-    public ResponseEntity<CombustiveisDTO> update (@PathVariable Long id, @Valid @RequestBody CombustiveisDTO combustiveisDto){
-        combustiveisDto = service.update(id, combustiveisDto);
-        return ResponseEntity.ok(combustiveisDto);
+    public ResponseEntity<CombustivelDTO> update (@PathVariable Long id, @Valid @RequestBody CombustivelDTO combustivelDto){
+        combustivelDto = service.update(id, combustivelDto);
+        return ResponseEntity.ok(combustivelDto);
     }
 
     @DeleteMapping (value = "/{id}")
