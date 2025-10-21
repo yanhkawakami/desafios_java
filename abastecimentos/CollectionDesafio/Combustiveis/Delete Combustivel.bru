@@ -1,0 +1,24 @@
+meta {
+  name: Delete Combustivel
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:8080/combustiveis/3
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    
+    "nomeCombustivel": "GASOLINA",
+    "precoPorLitro": 7.99
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

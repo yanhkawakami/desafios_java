@@ -14,8 +14,7 @@ public class Combustiveis {
     private String nomeCombustivel;
     private double precoPorLitro;
 
-    @ManyToMany(mappedBy = "combustiveis")
-    private Set<BombasDeCombustivel> bombas = new HashSet<>();
+    public Combustiveis() {}
 
     public Combustiveis(Long id, String nomeCombustivel, double precoPorLitro) {
         this.id = id;
@@ -27,15 +26,23 @@ public class Combustiveis {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getNomeCombustivel() {
         return nomeCombustivel;
+    }
+
+    public void setNomeCombustivel(String nomeCombustivel) {
+        this.nomeCombustivel = nomeCombustivel;
     }
 
     public double getPrecoPorLitro() {
         return precoPorLitro;
     }
 
-    public Set<BombasDeCombustivel> getBombas() {
-        return bombas;
+    public void setPrecoPorLitro(double precoPorLitro) {
+        this.precoPorLitro = precoPorLitro;
     }
 }
