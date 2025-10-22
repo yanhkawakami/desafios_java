@@ -1,12 +1,11 @@
 package com.desafios.abastecimentos.controllers;
 
 import com.desafios.abastecimentos.dto.BombaDeCombustivelDTO;
-import com.desafios.abastecimentos.dto.CombustivelDTO;
-import com.desafios.abastecimentos.entities.BombaDeCombustivel;
 import com.desafios.abastecimentos.services.BombaDeCombustivelService;
-import com.desafios.abastecimentos.services.CombustivelService;
+import com.desafios.abastecimentos.services.exceptions.DatabaseException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

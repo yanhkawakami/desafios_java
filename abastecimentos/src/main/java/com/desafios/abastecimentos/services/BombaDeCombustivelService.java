@@ -6,6 +6,7 @@ import com.desafios.abastecimentos.entities.BombaDeCombustivel;
 import com.desafios.abastecimentos.entities.Combustivel;
 import com.desafios.abastecimentos.repositories.BombaDeCombustivelRepository;
 import com.desafios.abastecimentos.repositories.CombustivelRepository;
+import com.desafios.abastecimentos.services.exceptions.DatabaseException;
 import com.desafios.abastecimentos.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,13 +42,15 @@ public class BombaDeCombustivelService {
 
     @Transactional
     public BombaDeCombustivelDTO insert(BombaDeCombustivelDTO bombaDeCombustivelDto) {
+        if (repository.existsByNomeBomba(bombaDeCombustivelDto.getNomeBomba())){
+            throw new DatabaseException("Erro de integridade referencial: você está tentando criar uma bomba de combustível que já existe");
+        }
         BombaDeCombustivel bomba = new BombaDeCombustivel();
         copyDtoToEntity(bomba, bombaDeCombustivelDto);
         bomba = repository.save(bomba);
         return new BombaDeCombustivelDTO(bomba);
     }
 
-    // TODO: Necessário adicionar tratativa de erro para inserção duplicada no banco
     public void copyDtoToEntity(BombaDeCombustivel bomba, BombaDeCombustivelDTO bombaDeCombustivelDto) {
         bomba.setNomeBomba(bombaDeCombustivelDto.getNomeBomba());
         for (CombustivelDTO combustivelDto : bombaDeCombustivelDto.getCombustiveis()) {
@@ -55,5 +58,6 @@ public class BombaDeCombustivelService {
             combustivel = combustivelRepository.getReferenceById(combustivel.getId());
             bomba.getCombustiveis().add(combustivel);
         }
+
     }
 }

@@ -3,8 +3,10 @@ package com.desafios.abastecimentos.services;
 import com.desafios.abastecimentos.dto.CombustivelDTO;
 import com.desafios.abastecimentos.entities.Combustivel;
 import com.desafios.abastecimentos.repositories.CombustivelRepository;
+import com.desafios.abastecimentos.services.exceptions.DatabaseException;
 import com.desafios.abastecimentos.services.exceptions.EntityNotFoundException;
 import com.desafios.abastecimentos.services.exceptions.ResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,10 +38,14 @@ public class CombustivelService {
 
     @Transactional
     public CombustivelDTO insert (CombustivelDTO combustivelDto){
+        if (repository.existsByNomeCombustivel(combustivelDto.getNomeCombustivel())){
+            throw new DatabaseException("Erro de integridade referencial: você está tentando criar um combustível que já existe");
+        }
         Combustivel combustivel = new Combustivel();
         copyDtoToEntity(combustivel, combustivelDto);
         combustivel = repository.save(combustivel);
         return new CombustivelDTO(combustivel);
+
     }
 
     @Transactional
@@ -59,11 +65,14 @@ public class CombustivelService {
         if (!repository.existsById(id)){
             throw new ResourceNotFoundException("Client ID " + id + " not found");
         }
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Erro de integridade referencial: você está tentando deletar um combustíivel relacionado");
+        }
     }
 
-    // TODO: Necessário adicionar tratativa de erro para inserção duplicada no banco
-    public void copyDtoToEntity (Combustivel combustivel, CombustivelDTO combustivelDto){
+    public void copyDtoToEntity (Combustivel combustivel, CombustivelDTO combustivelDto) {
         combustivel.setNomeCombustivel(combustivelDto.getNomeCombustivel());
         combustivel.setPrecoPorLitro(combustivelDto.getPrecoPorLitro());
     }
