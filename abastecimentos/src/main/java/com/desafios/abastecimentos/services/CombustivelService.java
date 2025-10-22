@@ -62,6 +62,7 @@ public class CombustivelService {
         repository.deleteById(id);
     }
 
+    // TODO: Necessário adicionar tratativa de erro para inserção duplicada no banco
     public void copyDtoToEntity (Combustivel combustivel, CombustivelDTO combustivelDto){
         combustivel.setNomeCombustivel(combustivelDto.getNomeCombustivel());
         combustivel.setPrecoPorLitro(combustivelDto.getPrecoPorLitro());

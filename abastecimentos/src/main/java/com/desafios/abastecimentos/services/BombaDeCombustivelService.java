@@ -47,6 +47,7 @@ public class BombaDeCombustivelService {
         return new BombaDeCombustivelDTO(bomba);
     }
 
+    // TODO: Necessário adicionar tratativa de erro para inserção duplicada no banco
     public void copyDtoToEntity(BombaDeCombustivel bomba, BombaDeCombustivelDTO bombaDeCombustivelDto) {
         bomba.setNomeBomba(bombaDeCombustivelDto.getNomeBomba());
         for (CombustivelDTO combustivelDto : bombaDeCombustivelDto.getCombustiveis()) {
