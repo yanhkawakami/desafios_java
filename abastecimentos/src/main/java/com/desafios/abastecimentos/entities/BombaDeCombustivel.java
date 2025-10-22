@@ -13,6 +13,7 @@ public class BombaDeCombustivel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String nomeBomba;
 
     @ManyToMany
@@ -27,6 +28,7 @@ public class BombaDeCombustivel {
     @OneToMany(mappedBy = "bomba")
     private List<Abastecimento> abastecimentos = new ArrayList<>();
 
+    public BombaDeCombustivel(){}
 
     public BombaDeCombustivel(Long id, String nomeBomba) {
         this.id = id;
@@ -37,11 +39,31 @@ public class BombaDeCombustivel {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getNomeBomba() {
         return nomeBomba;
     }
 
+    public void setNomeBomba(String nomeBomba) {
+        this.nomeBomba = nomeBomba;
+    }
+
     public Set<Combustivel> getCombustiveis() {
         return combustiveis;
+    }
+
+    public void setCombustiveis(Set<Combustivel> combustiveis) {
+        this.combustiveis = combustiveis;
+    }
+
+    public List<Abastecimento> getAbastecimentos() {
+        return abastecimentos;
+    }
+
+    public void setAbastecimentos(List<Abastecimento> abastecimentos) {
+        this.abastecimentos = abastecimentos;
     }
 }

@@ -4,6 +4,7 @@ import com.desafios.abastecimentos.entities.Combustivel;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import org.hibernate.validator.constraints.UniqueElements;
 
 public class CombustivelDTO {
     private Long id;
@@ -22,7 +23,7 @@ public class CombustivelDTO {
     }
 
     public CombustivelDTO(Combustivel combustivel){
-        id = combustivel.getId();;
+        id = combustivel.getId();
         nomeCombustivel = combustivel.getNomeCombustivel();
         precoPorLitro = combustivel.getPrecoPorLitro();
     }

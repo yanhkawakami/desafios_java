@@ -13,7 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/combustiveis")
+@RequestMapping(value = "/combustivel")
 public class CombustivelController {
 
     @Autowired
@@ -21,8 +21,8 @@ public class CombustivelController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CombustivelDTO> findById(@PathVariable Long id){
-        CombustivelDTO combustivelDTO = service.findById(id);
-        return ResponseEntity.ok(combustivelDTO);
+        CombustivelDTO combustivelDto = service.findById(id);
+        return ResponseEntity.ok(combustivelDto);
     }
 
     @GetMapping
@@ -32,8 +32,8 @@ public class CombustivelController {
     }
 
     @PostMapping
-    public ResponseEntity<CombustivelDTO> insert(@Valid @RequestBody CombustivelDTO combustivelDTO){
-        CombustivelDTO dto = service.insert(combustivelDTO);
+    public ResponseEntity<CombustivelDTO> insert(@Valid @RequestBody CombustivelDTO combustivelDto){
+        CombustivelDTO dto = service.insert(combustivelDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);

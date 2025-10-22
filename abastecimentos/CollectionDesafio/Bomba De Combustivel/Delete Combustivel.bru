@@ -1,11 +1,11 @@
 meta {
-  name: Update Combustivel
+  name: Delete Combustivel
   type: http
-  seq: 4
+  seq: 5
 }
 
-put {
-  url: http://localhost:8080/combustivel/1
+delete {
+  url: http://localhost:8080/combustivel/3
   body: json
   auth: inherit
 }
@@ -14,7 +14,7 @@ body:json {
   {
     
     "nomeCombustivel": "GASOLINA",
-    "precoPorLitro": 5.49
+    "precoPorLitro": 7.99
   }
 }
 
