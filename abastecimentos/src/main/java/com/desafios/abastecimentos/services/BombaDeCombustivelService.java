@@ -7,11 +7,14 @@ import com.desafios.abastecimentos.entities.Combustivel;
 import com.desafios.abastecimentos.repositories.BombaDeCombustivelRepository;
 import com.desafios.abastecimentos.repositories.CombustivelRepository;
 import com.desafios.abastecimentos.services.exceptions.DatabaseException;
+import com.desafios.abastecimentos.services.exceptions.EmptyContent;
+import com.desafios.abastecimentos.services.exceptions.EntityNotFoundException;
 import com.desafios.abastecimentos.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -30,14 +33,17 @@ public class BombaDeCombustivelService {
     public BombaDeCombustivelDTO findById(Long id) {
         Optional<BombaDeCombustivel> result = repository.findById(id);
         BombaDeCombustivel bomba = result.orElseThrow(
-                () -> new ResourceNotFoundException("Client ID " + id + " not found"));
+                () -> new ResourceNotFoundException("Bomba com ID " + id + " não encontrada"));
         return new BombaDeCombustivelDTO(bomba);
     }
 
     @Transactional(readOnly = true)
     public Page<BombaDeCombustivelDTO> findAll(Pageable pageable) {
         Page<BombaDeCombustivel> result = repository.findAll(pageable);
-        return result.map(x -> new BombaDeCombustivelDTO(x));
+        if (result.getContent().size() != 0) {
+            return result.map(x -> new BombaDeCombustivelDTO(x));
+        }
+        throw new EmptyContent("Não há bombas de combustível cadastradas");
     }
 
     @Transactional
@@ -49,6 +55,30 @@ public class BombaDeCombustivelService {
         copyDtoToEntity(bomba, bombaDeCombustivelDto);
         bomba = repository.save(bomba);
         return new BombaDeCombustivelDTO(bomba);
+    }
+
+    @Transactional
+    public BombaDeCombustivelDTO update(Long id, BombaDeCombustivelDTO bombaDeCombustivelDto){
+        try {
+            BombaDeCombustivel bomba = repository.getReferenceById(id);
+            copyDtoToEntity(bomba, bombaDeCombustivelDto);
+            bomba = repository.save(bomba);
+            return new BombaDeCombustivelDTO(bomba);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Bomba com ID " + id + " não encontrada");
+        }
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+        if (!repository.existsById(id)){
+            throw new ResourceNotFoundException("Bomba com ID " + id + " não encontrada");
+        }
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Erro de integridade referencial: você está tentando deletar um combustíivel relacionado");
+        }
     }
 
     public void copyDtoToEntity(BombaDeCombustivel bomba, BombaDeCombustivelDTO bombaDeCombustivelDto) {

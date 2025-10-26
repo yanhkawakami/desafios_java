@@ -2,6 +2,7 @@ package com.desafios.abastecimentos.controllers.handlers;
 
 import com.desafios.abastecimentos.dto.CustomErrorDTO;
 import com.desafios.abastecimentos.dto.ValidationErrorDTO;
+import com.desafios.abastecimentos.services.exceptions.EmptyContent;
 import com.desafios.abastecimentos.services.exceptions.DatabaseException;
 import com.desafios.abastecimentos.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,14 +32,20 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorDTO> methodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
-        ValidationErrorDTO err = new ValidationErrorDTO(Instant.now(), status.value(), "Invalid payload!", request.getRequestURI());
+        ValidationErrorDTO err = new ValidationErrorDTO(Instant.now(), status.value(), "Payload inválido!", request.getRequestURI());
         for (FieldError f : e.getBindingResult().getFieldErrors()) {
             err.addError(f.getField(), f.getDefaultMessage());
         }
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(EmptyContent.class)
+    public ResponseEntity<CustomErrorDTO> emptyContent(EmptyContent e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.ACCEPTED;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 

@@ -8,10 +8,10 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 public class CombustivelDTO {
     private Long id;
-    @NotBlank(message = "The field 'nomeCombustivel' cannot be null")
+    @NotBlank(message = "O campo 'nomeCombustivel' não pode ser nulo")
     private String nomeCombustivel;
-    @NotNull(message = "The field 'precoPorLitro' cannot be null")
-    @PositiveOrZero (message = "The field 'precoPorLitro' cannot be negative or zero")
+    @NotNull(message = "O campo 'precoPorLitro' não pode ser nulo")
+    @PositiveOrZero (message = "O campo 'precoPorLitro' não pode ser negativo ou zero")
     private double precoPorLitro;
 
     public CombustivelDTO() {}

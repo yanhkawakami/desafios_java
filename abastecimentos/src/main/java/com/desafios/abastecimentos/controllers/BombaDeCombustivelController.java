@@ -1,6 +1,7 @@
 package com.desafios.abastecimentos.controllers;
 
 import com.desafios.abastecimentos.dto.BombaDeCombustivelDTO;
+import com.desafios.abastecimentos.dto.CombustivelDTO;
 import com.desafios.abastecimentos.services.BombaDeCombustivelService;
 import com.desafios.abastecimentos.services.exceptions.DatabaseException;
 import jakarta.validation.Valid;
@@ -38,5 +39,17 @@ public class BombaDeCombustivelController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PutMapping (value = "/{id}")
+    public ResponseEntity<BombaDeCombustivelDTO> update (@PathVariable Long id, @Valid @RequestBody BombaDeCombustivelDTO bombaDeCombustivelDto){
+        bombaDeCombustivelDto = service.update(id, bombaDeCombustivelDto);
+        return ResponseEntity.ok(bombaDeCombustivelDto);
+    }
+
+    @DeleteMapping (value = "/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

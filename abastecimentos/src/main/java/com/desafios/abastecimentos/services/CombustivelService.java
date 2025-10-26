@@ -4,6 +4,7 @@ import com.desafios.abastecimentos.dto.CombustivelDTO;
 import com.desafios.abastecimentos.entities.Combustivel;
 import com.desafios.abastecimentos.repositories.CombustivelRepository;
 import com.desafios.abastecimentos.services.exceptions.DatabaseException;
+import com.desafios.abastecimentos.services.exceptions.EmptyContent;
 import com.desafios.abastecimentos.services.exceptions.EntityNotFoundException;
 import com.desafios.abastecimentos.services.exceptions.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,14 +27,17 @@ public class CombustivelService {
     public CombustivelDTO findById (Long id){
         Optional<Combustivel> result = repository.findById(id);
         Combustivel combustivel = result.orElseThrow(
-                () -> new ResourceNotFoundException("Client ID " + id + " not found"));
+                () -> new ResourceNotFoundException("Combustível com ID " + id + " não encontrada"));
         return new CombustivelDTO(combustivel);
     }
 
     @Transactional(readOnly = true)
     public Page<CombustivelDTO> findAll (Pageable pageable){
         Page<Combustivel> result = repository.findAll(pageable);
-        return result.map(x -> new CombustivelDTO(x));
+        if (result.getContent().size() != 0) {
+            return result.map(x -> new CombustivelDTO(x));
+        }
+        throw new EmptyContent("Não há combustíveis cadastrados");
     }
 
     @Transactional
@@ -56,14 +60,14 @@ public class CombustivelService {
             combustivel = repository.save(combustivel);
             return new CombustivelDTO(combustivel);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Client ID " + id + " not found");
+            throw new ResourceNotFoundException("Combustível com ID " + id + " não encontrada");
         }
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
         if (!repository.existsById(id)){
-            throw new ResourceNotFoundException("Client ID " + id + " not found");
+            throw new ResourceNotFoundException("Combustível com ID " + id + " não encontrada");
         }
         try {
             repository.deleteById(id);

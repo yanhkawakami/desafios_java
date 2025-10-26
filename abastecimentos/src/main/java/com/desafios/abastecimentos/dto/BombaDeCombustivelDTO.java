@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class BombaDeCombustivelDTO {
     private Long id;
-    @NotBlank(message = "The field 'nomeBomba' cannot be null")
+    @NotBlank(message = "O campo 'nomeBomba' não pode ser nulo")
     private String nomeBomba;
     private List<CombustivelDTO> combustiveis = new ArrayList<>();
 
