@@ -1,5 +1,6 @@
 package com.desafios.abastecimentos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class BombaDeCombustivel {
     @Column(unique = true)
     private String nomeBomba;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tb_bomba_combustivel",
             joinColumns = @JoinColumn(name = "bomba_id"),

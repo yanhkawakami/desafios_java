@@ -14,9 +14,12 @@ public class Abastecimento {
     @JoinColumn (name = "bomba_id")
     private BombaDeCombustivel bomba;
 
+
     private LocalDate data;
     private Double valor;
     private Double litragem;
+
+    public Abastecimento() {}
 
     public Abastecimento(Long id, BombaDeCombustivel bomba, LocalDate data, Double valor, Double litragem) {
         this.id = id;
@@ -30,19 +33,39 @@ public class Abastecimento {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public BombaDeCombustivel getBomba() {
         return bomba;
+    }
+
+    public void setBomba(BombaDeCombustivel bomba) {
+        this.bomba = bomba;
     }
 
     public LocalDate getData() {
         return data;
     }
 
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
     public Double getValor() {
         return valor;
     }
 
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
     public Double getLitragem() {
         return litragem;
+    }
+
+    public void setLitragem(Double litragem) {
+        this.litragem = litragem;
     }
 }

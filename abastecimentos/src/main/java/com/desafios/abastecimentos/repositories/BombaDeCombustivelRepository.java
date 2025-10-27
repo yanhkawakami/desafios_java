@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BombaDeCombustivelRepository extends JpaRepository<BombaDeCombustivel, Long> {
     Boolean existsByNomeBomba(String nomeBomba);
+    BombaDeCombustivel findByNomeBomba(String nomeBomba);
 }
