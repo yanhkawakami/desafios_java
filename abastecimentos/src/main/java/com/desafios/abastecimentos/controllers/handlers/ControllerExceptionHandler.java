@@ -16,9 +16,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
 
+/**
+ * Manipulador global de exceções para a aplicação.
+ * Intercepta exceções lançadas pelos controllers e retorna
+ * respostas HTTP padronizadas com informações de erro.
+ */
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
+    /**
+     * Trata exceções de recurso não encontrado
+     *
+     * @param e exceção ResourceNotFoundException
+     * @param request requisição HTTP
+     * @return ResponseEntity com erro 404 (Not Found)
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<CustomErrorDTO> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
@@ -26,6 +38,13 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    /**
+     * Trata exceções de integridade do banco de dados
+     *
+     * @param e exceção DatabaseException
+     * @param request requisição HTTP
+     * @return ResponseEntity com erro 400 (Bad Request)
+     */
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<CustomErrorDTO> database(DatabaseException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -33,6 +52,13 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    /**
+     * Trata exceções de validação de argumentos
+     *
+     * @param e exceção MethodArgumentNotValidException
+     * @param request requisição HTTP
+     * @return ResponseEntity com erro 422 (Unprocessable Entity) e detalhes dos campos inválidos
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorDTO> methodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
@@ -43,6 +69,13 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    /**
+     * Trata exceções de entidade não encontrada (JPA)
+     *
+     * @param e exceção EntityNotFoundException
+     * @param request requisição HTTP
+     * @return ResponseEntity com erro 422 (Unprocessable Entity)
+     */
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<CustomErrorDTO> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
@@ -50,7 +83,13 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-
+    /**
+     * Trata exceções de conteúdo vazio
+     *
+     * @param e exceção EmptyContent
+     * @param request requisição HTTP
+     * @return ResponseEntity com status 202 (Accepted)
+     */
     @ExceptionHandler(EmptyContent.class)
     public ResponseEntity<CustomErrorDTO> emptyContent(EmptyContent e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.ACCEPTED;

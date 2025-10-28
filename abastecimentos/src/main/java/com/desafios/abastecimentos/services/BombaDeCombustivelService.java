@@ -85,8 +85,12 @@ public class BombaDeCombustivelService {
         bomba.setNomeBomba(bombaDeCombustivelDto.getNomeBomba());
         for (CombustivelDTO combustivelDto : bombaDeCombustivelDto.getCombustiveis()) {
             Combustivel combustivel = combustivelRepository.findByNomeCombustivel(combustivelDto.getNomeCombustivel());
-            combustivel = combustivelRepository.getReferenceById(combustivel.getId());
-            bomba.getCombustiveis().add(combustivel);
+            if (combustivel != null) {
+                combustivel = combustivelRepository.getReferenceById(combustivel.getId());
+                bomba.getCombustiveis().add(combustivel);
+            }
+            throw new ResourceNotFoundException("Combustível " + combustivelDto.getNomeCombustivel() + " não encontrado");
+
         }
 
     }
