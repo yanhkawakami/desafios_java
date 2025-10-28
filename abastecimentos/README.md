@@ -324,6 +324,10 @@ O projeto segue uma arquitetura em camadas:
 
 Este projeto foi desenvolvido como parte de um desafio técnico e está disponível para fins educacionais.
 
+
+## Pontos de melhoria
+
+- Adicionar o cálculo automático do valor total no abastecimento com base na litragem e preço do combustível
 ---
 
 **Desenvolvido com ❤️ em Java + Spring Boot**
