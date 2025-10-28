@@ -1,0 +1,24 @@
+meta {
+  name: Delete Abastecimento
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/abastecimento/25
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    
+    "nomeCombustivel": "GASOLINA",
+    "precoPorLitro": 7.99
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -5,6 +5,7 @@ import com.desafios.abastecimentos.dto.ValidationErrorDTO;
 import com.desafios.abastecimentos.services.exceptions.EmptyContent;
 import com.desafios.abastecimentos.services.exceptions.DatabaseException;
 import com.desafios.abastecimentos.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,14 @@ public class ControllerExceptionHandler {
         }
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<CustomErrorDTO> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
 
     @ExceptionHandler(EmptyContent.class)
     public ResponseEntity<CustomErrorDTO> emptyContent(EmptyContent e, HttpServletRequest request) {

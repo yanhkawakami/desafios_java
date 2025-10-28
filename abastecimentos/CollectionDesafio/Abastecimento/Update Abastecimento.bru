@@ -1,0 +1,25 @@
+meta {
+  name: Update Abastecimento
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/abastecimento/190
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nomeBomba": "Bomba 100",
+    "data": "1999-02-10",
+    "valor": 1100.0,
+    "litragem": 5.0
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

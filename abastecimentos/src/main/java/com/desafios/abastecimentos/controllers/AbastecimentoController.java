@@ -34,11 +34,23 @@ public class AbastecimentoController {
     }
 
     @PostMapping
-    public ResponseEntity<AbastecimentoDTO> insert(@RequestBody AbastecimentoDTO abastecimentoDto){
+    public ResponseEntity<AbastecimentoDTO> insert(@Valid @RequestBody AbastecimentoDTO abastecimentoDto){
         AbastecimentoDTO dto = service.insert(abastecimentoDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PutMapping (value = "/{id}")
+    public ResponseEntity<AbastecimentoDTO> update (@PathVariable Long id, @Valid @RequestBody AbastecimentoDTO abastecimentoDto){
+        abastecimentoDto = service.update(id, abastecimentoDto);
+        return ResponseEntity.ok(abastecimentoDto);
+    }
+
+    @DeleteMapping (value = "/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

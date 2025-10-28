@@ -4,6 +4,7 @@ import com.desafios.abastecimentos.entities.Abastecimento;
 import com.desafios.abastecimentos.entities.BombaDeCombustivel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -11,11 +12,11 @@ public class AbastecimentoDTO {
     private Long id;
     @NotBlank(message = "O campo 'bomba' não pode ser nulo")
     private String nomeBomba;
-    @NotBlank(message = "O campo 'data' não pode ser nulo")
+    @NotNull(message = "O campo 'data' não pode ser nulo")
     private LocalDate data;
-    @NotBlank(message = "O campo 'valor' não pode ser nulo")
+    @NotNull(message = "O campo 'valor' não pode ser nulo")
     private Double valor;
-    @NotBlank(message = "O campo 'litragem' não pode ser nulo")
+    @NotNull(message = "O campo 'litragem' não pode ser nulo")
     private Double litragem;
 
     public AbastecimentoDTO() {}
