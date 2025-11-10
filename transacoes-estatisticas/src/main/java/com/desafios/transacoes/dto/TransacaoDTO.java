@@ -1,11 +1,19 @@
 package com.desafios.transacoes.dto;
 
+import jakarta.validation.constraints.*;
+
 import java.time.OffsetDateTime;
 
 public class TransacaoDTO {
 
     private Long id;
+    @NotNull
+    @Min(0)
+    @Positive
     private float valor;
+
+    @NotNull
+    @Past
     private OffsetDateTime dataHora;
 
     public TransacaoDTO(Long id, float valor, OffsetDateTime dataHora) {

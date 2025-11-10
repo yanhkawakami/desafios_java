@@ -27,4 +27,11 @@ public class TransacaoController {
         return ResponseEntity.created(uri).body(null);
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> delete(){
+        service.delete();
+        return ResponseEntity.ok(null);
+    }
+
+
 }
