@@ -1,6 +1,8 @@
 package com.desafios.transacoes.services;
 import com.desafios.transacoes.dto.TransacaoDTO;
 import com.desafios.transacoes.dto.TransacaoEstatisticaDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,25 +18,30 @@ import java.util.stream.Collectors;
 @Service
 public class TransacaoService {
 
+    private static final Logger log = LoggerFactory.getLogger(TransacaoService.class);
 
     private final Map<Long, TransacaoDTO> transacoes = new ConcurrentHashMap<>();
 
     private final AtomicLong contador = new AtomicLong();
 
     public void insert(TransacaoDTO transacaoDto){
+        log.info("A transação com dataHora " + transacaoDto.getDataHora() + " e valor R$" + transacaoDto.getValor() + " está sendo salva");
         long id = contador.incrementAndGet();
         transacaoDto.setId(id);
         transacoes.put(id, transacaoDto);
+        log.info("A transação foi salva com ID " + id);
     }
 
     public void delete(){
         transacoes.clear();
+        log.info("Transações deletadas com sucesso");
     }
 
     public TransacaoEstatisticaDTO getEstatistica(String janelaSegundos){
         ZoneOffset zoneOffSet = ZoneOffset.of("-03:00");
         OffsetDateTime agora = OffsetDateTime.now(zoneOffSet);
         OffsetDateTime limite = agora.minusMinutes(Long.parseLong(janelaSegundos));
+        log.info("Transações a partir de " + limite + " serão utilizadas para gerar as estatísticas" );
         Map<Long, TransacaoDTO> recentes = transacoes.entrySet().stream()
                 .filter(entry -> entry.getValue().getDataHora().isBefore(agora))
                 .filter(entry -> entry.getValue().getDataHora().isAfter(limite))
@@ -45,6 +52,7 @@ public class TransacaoService {
         TransacaoEstatisticaDTO transacaoEstatisticaDto = new TransacaoEstatisticaDTO();
 
         toDto(estatisticas, transacaoEstatisticaDto);
+        log.info("Estatísticas calculadas com sucesso!");
         return transacaoEstatisticaDto;
     }
 
