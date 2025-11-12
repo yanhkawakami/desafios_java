@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.annotation.Repeatable;
@@ -18,8 +19,9 @@ public class EstatisticaController {
     TransacaoService service;
 
     @GetMapping
-    public ResponseEntity<TransacaoEstatisticaDTO> getEstatistica() {
-        TransacaoEstatisticaDTO dto = service.getEstatistica();
+    public ResponseEntity<TransacaoEstatisticaDTO> getEstatistica(
+            @RequestParam (name = "janelaSegundos", defaultValue = "60") String janelaSegundos) {
+        TransacaoEstatisticaDTO dto = service.getEstatistica(janelaSegundos);
         return ResponseEntity.ok(dto);
     }
 }

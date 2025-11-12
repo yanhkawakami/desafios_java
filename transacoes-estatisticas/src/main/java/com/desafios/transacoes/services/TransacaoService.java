@@ -3,6 +3,8 @@ import com.desafios.transacoes.dto.TransacaoDTO;
 import com.desafios.transacoes.dto.TransacaoEstatisticaDTO;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.DoubleSummaryStatistics;
@@ -14,7 +16,6 @@ import java.util.stream.Collectors;
 @Service
 public class TransacaoService {
 
-    DoubleSummaryStatistics doubleSummaryStatistics = new DoubleSummaryStatistics();
 
     private final Map<Long, TransacaoDTO> transacoes = new ConcurrentHashMap<>();
 
@@ -30,10 +31,10 @@ public class TransacaoService {
         transacoes.clear();
     }
 
-    public TransacaoEstatisticaDTO getEstatistica(){
+    public TransacaoEstatisticaDTO getEstatistica(String janelaSegundos){
         ZoneOffset zoneOffSet = ZoneOffset.of("-03:00");
         OffsetDateTime agora = OffsetDateTime.now(zoneOffSet);
-        OffsetDateTime limite = agora.minusMinutes(60);
+        OffsetDateTime limite = agora.minusMinutes(Long.parseLong(janelaSegundos));
         Map<Long, TransacaoDTO> recentes = transacoes.entrySet().stream()
                 .filter(entry -> entry.getValue().getDataHora().isBefore(agora))
                 .filter(entry -> entry.getValue().getDataHora().isAfter(limite))
@@ -43,17 +44,33 @@ public class TransacaoService {
                 .summaryStatistics();
         TransacaoEstatisticaDTO transacaoEstatisticaDto = new TransacaoEstatisticaDTO();
 
-        // TODO: necessário formatar os campos Double para devolver dois campos decimais
         toDto(estatisticas, transacaoEstatisticaDto);
         return transacaoEstatisticaDto;
     }
 
     public void toDto(DoubleSummaryStatistics estatisticas, TransacaoEstatisticaDTO transacaoEstatisticaDto) {
         transacaoEstatisticaDto.setContagem(estatisticas.getCount());
-        transacaoEstatisticaDto.setSoma(estatisticas.getSum());
-        transacaoEstatisticaDto.setMedia(estatisticas.getAverage());
-        transacaoEstatisticaDto.setMin(estatisticas.getMin());
-        transacaoEstatisticaDto.setMax(estatisticas.getMax());
+        transacaoEstatisticaDto.setSoma(arredondarParaDuasCasas(estatisticas.getSum()));
+
+        // Tratar casos especiais para média (pode ser NaN quando não há dados)
+        double media = estatisticas.getAverage();
+        transacaoEstatisticaDto.setMedia(Double.isNaN(media) ? 0.0 : arredondarParaDuasCasas(media));
+
+        // Tratar casos especiais para min/max (podem ser Infinity quando não há dados)
+        double min = estatisticas.getMin();
+        transacaoEstatisticaDto.setMin(Double.isInfinite(min) ? 0.0 : arredondarParaDuasCasas(min));
+
+        double max = estatisticas.getMax();
+        transacaoEstatisticaDto.setMax(Double.isInfinite(max) ? 0.0 : arredondarParaDuasCasas(max));
+    }
+
+    private Double arredondarParaDuasCasas(double valor) {
+        if (Double.isNaN(valor) || Double.isInfinite(valor)) {
+            return 0.0;
+        }
+        return BigDecimal.valueOf(valor)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
 }

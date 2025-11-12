@@ -7,13 +7,12 @@ import java.time.OffsetDateTime;
 public class TransacaoDTO {
 
     private Long id;
-    @NotNull
-    @Min(0)
-    @Positive
+    @NotNull (message = "O campo 'valor' não pode ser nulo")
+    @Positive (message = "O campo 'valor' precisa ser positivo")
     private float valor;
 
-    @NotNull
-    @Past
+    @NotNull (message = "O campo 'dataHora' não pode ser nulo")
+    @Past (message = "O campo 'dataHora' precisa estar no passado")
     private OffsetDateTime dataHora;
 
     public TransacaoDTO(Long id, float valor, OffsetDateTime dataHora) {
