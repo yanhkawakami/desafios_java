@@ -14,7 +14,7 @@ Este repositório contém uma coleção de **9 exercícios práticos** focados n
 ## 📋 Tabela de Progresso
 
 ### 🟢 Nível Fácil (Aquecimento)
-- [ ] **Ex 1:** ToDo List (CRUD Básico)
+- [X] **Ex 1:** ToDo List (CRUD Básico)
 - [ ] **Ex 2:** Urna Eletrônica (Contadores)
 - [ ] **Ex 3:** Agenda Telefônica (Mapas e Unicidade)
 

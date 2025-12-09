@@ -1,0 +1,154 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Desafios Em Memória
+meta:
+  id: wrk_e24972b62a934cf6938cd9b56354fd44
+  created: 1765320415194
+  modified: 1765320415194
+  description: ""
+collection:
+  - name: To-Do-List
+    meta:
+      id: fld_fe7b84c1f7f445faa8199045d69a68bc
+      created: 1765320424289
+      modified: 1765320424289
+      sortKey: -1765320424289
+      description: ""
+    children:
+      - url: http://localhost:8080/tasks
+        name: Create Task
+        meta:
+          id: req_641faf23da7d4b928acf19e733c6d2b5
+          created: 1765320438293
+          modified: 1765321173619
+          isPrivate: false
+          description: ""
+          sortKey: -1765320445200
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"description": "Limpar a cozinha"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tasks/2/concluir
+        name: Update Task
+        meta:
+          id: req_21bf3c084e76433b9a2d6f05fc7c2796
+          created: 1765320789277
+          modified: 1765321567281
+          isPrivate: false
+          description: ""
+          sortKey: -1765236996210
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"description": "Limpar a cozinha"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tasks
+        name: Get All Tasks
+        meta:
+          id: req_8958bfcad42d4d14b3e056fb8843803e
+          created: 1765321345501
+          modified: 1765321351912
+          isPrivate: false
+          description: ""
+          sortKey: -1765195271715
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"descripton": "Limpar a cozinha"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/tasks/pending
+        name: Get Pending Tasks
+        meta:
+          id: req_84f85e7290f14344bab00624b98ddaca
+          created: 1765321531811
+          modified: 1765321540375
+          isPrivate: false
+          description: ""
+          sortKey: -1765174409467.5
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"descripton": "Limpar a cozinha"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_b8295f8386311f497cb74b269b283a9ab9a9aa9c
+    created: 1765320415196
+    modified: 1765320415196
+environments:
+  name: Base Environment
+  meta:
+    id: env_b8295f8386311f497cb74b269b283a9ab9a9aa9c
+    created: 1765320415195
+    modified: 1765320415195
+    isPrivate: false
