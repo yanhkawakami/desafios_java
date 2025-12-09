@@ -5,13 +5,9 @@ meta {
 }
 
 get {
-  url: http://localhost:8080/estatistica?janelaSegundos=120
+  url: http://localhost:8080/actuator/health
   body: json
   auth: inherit
-}
-
-params:query {
-  janelaSegundos: 120
 }
 
 settings {
