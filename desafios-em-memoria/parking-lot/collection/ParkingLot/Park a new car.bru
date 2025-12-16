@@ -1,0 +1,23 @@
+meta {
+  name: Park a new car
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/parking-lot/entrada
+  body: json
+  auth: inherit
+}
+
+body:json {
+  { 
+    "placa": "ABC-1234",
+    "tipo": "MOTO"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

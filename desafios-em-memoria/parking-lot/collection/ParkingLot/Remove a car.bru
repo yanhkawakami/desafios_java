@@ -1,0 +1,16 @@
+meta {
+  name: Remove a car
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/parking-lot/saida/ABC-1234
+  body: json
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

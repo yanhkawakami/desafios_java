@@ -1,0 +1,16 @@
+meta {
+  name: Get Slots
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/parking-lot/vagas
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
